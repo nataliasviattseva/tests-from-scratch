@@ -14,16 +14,28 @@ jobs:
     name: Lint & Type-Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
+      
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set Yarn Version (from package.json)
+        run: corepack prepare yarn@4.9.1 --activate
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
       - name: Lint workspace
         run: yarn lint
+
       - name: TypeScript check
         run: |
           yarn workspace node tsc --noEmit
@@ -41,16 +53,28 @@ jobs:
       run:
         working-directory: packages/node
     steps:
-      - uses: actions/checkout@v3
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set Yarn Version (from package.json)
+        run: corepack prepare yarn@4.9.1 --activate
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
       - name: Run Jest tests
         run: yarn test
+
       - name: Upload Backend Coverage
         uses: actions/upload-artifact@v3
         with:
@@ -71,14 +95,24 @@ jobs:
       run:
         working-directory: packages/${{ matrix.workspace }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set Yarn Version (from package.json)
+        run: corepack prepare yarn@4.9.1 --activate
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
       - name: Run tests & coverage
         run: |
           if [ "${{ matrix.workspace }}" = "react-app" ]; then
@@ -86,6 +120,7 @@ jobs:
           else
             yarn test --watch=false --browsers=ChromeHeadless
           fi
+
       - name: Upload Frontend Coverage
         uses: actions/upload-artifact@v3
         with:
@@ -100,16 +135,28 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-backend, test-frontend]
     steps:
-      - uses: actions/checkout@v3
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set Yarn Version (from package.json)
+        run: corepack prepare yarn@4.9.1 --activate
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
       - name: Run E2E tests
         run: yarn e2e
+
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v3
         with:
@@ -125,19 +172,25 @@ jobs:
     needs: [test-backend, test-frontend]
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v3
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Download coverage artifacts
         uses: actions/download-artifact@v3
         with:
           name: coverage-backend
           path: coverage/backend
+
       - uses: actions/download-artifact@v3
         with:
           name: coverage-react-app
           path: coverage/react
+
       - uses: actions/download-artifact@v3
         with:
           name: coverage-ng-app
           path: coverage/ng
+          
       - name: Comment coverage on PR
         run: echo "Coverage comment logic goes here"
