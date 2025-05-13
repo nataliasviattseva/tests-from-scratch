@@ -14,11 +14,13 @@
     "start:react": "yarn workspace react-app start",
     "build:ng": "yarn workspace ng-app build",
     "start:ng": "yarn workspace ng-app start",
-    "e2e": "playwright test --config=e2e/playwright.config.ts"
+    "e2e": "playwright test --config=e2e/playwright.config.ts",
+    "lint": "eslint ."
   },
   "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
+    "eslint": "^9.26.0",
     "msw": "^2.8.2"
   },
   "resolutions": {
