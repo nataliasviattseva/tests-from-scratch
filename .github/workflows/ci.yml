@@ -18,17 +18,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Enable Corepack and prepare Yarn 4
+        run: |
+          corepack enable
+          corepack prepare yarn@4.9.1 --activate
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
-      
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Set Yarn Version (from package.json)
-        run: corepack prepare yarn@4.9.1 --activate
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -57,17 +56,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Enable Corepack and prepare Yarn 4
+        run: |
+          corepack enable
+          corepack prepare yarn@4.9.1 --activate
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Set Yarn Version (from package.json)
-        run: corepack prepare yarn@4.9.1 --activate
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -98,17 +96,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+
+      - name: Enable Corepack and prepare Yarn 4
+        run: |
+          corepack enable
+          corepack prepare yarn@4.9.1 --activate
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Set Yarn Version (from package.json)
-        run: corepack prepare yarn@4.9.1 --activate
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -138,18 +136,17 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v3
-
+ 
+      - name: Enable Corepack and prepare Yarn 4
+        run: |
+          corepack enable
+          corepack prepare yarn@4.9.1 --activate
+       
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Set Yarn Version (from package.json)
-        run: corepack prepare yarn@4.9.1 --activate
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -191,6 +188,6 @@ jobs:
         with:
           name: coverage-ng-app
           path: coverage/ng
-          
+
       - name: Comment coverage on PR
         run: echo "Coverage comment logic goes here"
