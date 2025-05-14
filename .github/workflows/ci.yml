@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.0
+          node-version: 20.19.1
           cache: 'yarn'
 
       - name: Install dependencies
@@ -68,7 +68,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.0
+          node-version: 20.19.1
           cache: 'yarn'
 
       - name: Install dependencies
@@ -111,7 +111,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.0
+          node-version: 20.19.1
           cache: 'yarn'
 
       - name: Install dependencies
@@ -153,7 +153,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.0
+          node-version: 20.19.1
           cache: 'yarn'
 
       - name: Install dependencies
@@ -201,3 +201,34 @@ jobs:
 
       - name: Comment coverage on PR
         run: echo "Coverage comment logic goes here"
+        
+ # ---------------------------------------
+  # 6. SonarCloud Analysis (optional)
+  # ---------------------------------------
+  sonarcloud:
+    name: Analyse SonarCloud
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java (SonarCloud requirement)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Cache Sonar packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v1.9.0
+        with:
+          organization: 'myorg' # Remplace par ta vraie organisation SonarCloud
+          token: ${{ secrets.SONAR_TOKEN }}
+          projectKey: 'myorg_tests-course'
+          projectName: 'tests-course'
