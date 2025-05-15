@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  NODE_VERSION: 20.19.1
+  YARN_VERSION: 4.9.1
+
 jobs:
   # ---------------------------------------
   # 1. Lint & Type-Check (monorepo-wide)
@@ -18,17 +22,17 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Enable Corepack and prepare Yarn 4
+      - name: Enable Corepack and prepare Yarn
         run: |
           corepack enable
-          corepack prepare yarn@4.9.1 --activate
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20.19.1
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
       - name: Install dependencies
@@ -55,20 +59,21 @@ jobs:
     defaults:
       run:
         working-directory: packages/node
+        
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Enable Corepack and prepare Yarn 4
+      - name: Enable Corepack and prepare Yarn
         run: |
           corepack enable
-          corepack prepare yarn@4.9.1 --activate
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20.19.1
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
       - name: Install dependencies
@@ -78,7 +83,7 @@ jobs:
         run: yarn test
 
       - name: Upload Backend Coverage
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-backend
           path: packages/node/coverage
@@ -98,20 +103,21 @@ jobs:
     defaults:
       run:
         working-directory: packages/${{ matrix.workspace }}
+
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Enable Corepack and prepare Yarn 4
+      - name: Enable Corepack and prepare Yarn
         run: |
           corepack enable
-          corepack prepare yarn@4.9.1 --activate
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20.19.1
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
       - name: Install dependencies
@@ -126,7 +132,7 @@ jobs:
           fi
 
       - name: Upload Frontend Coverage
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.workspace }}
           path: packages/${{ matrix.workspace }}/coverage
@@ -140,30 +146,34 @@ jobs:
     continue-on-error: true
 
     needs: [test-backend, test-frontend]
+
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
  
-      - name: Enable Corepack and prepare Yarn 4
+      - name: Enable Corepack and prepare Yarn
         run: |
           corepack enable
-          corepack prepare yarn@4.9.1 --activate
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
        
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20.19.1
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
       - name: Run E2E tests
         run: yarn e2e
 
       - name: Upload Playwright Report
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report
@@ -181,20 +191,20 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download coverage artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: coverage-backend
           path: coverage/backend
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: coverage-react-app
           path: coverage/react
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: coverage-ng-app
           path: coverage/ng
@@ -209,15 +219,27 @@ jobs:
     name: Analyse SonarCloud
     runs-on: ubuntu-latest
     continue-on-error: true
+    needs: [test-backend, test-frontend]
+
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Java (SonarCloud requirement)
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
-          distribution: 'adopt'
-          java-version: '11'
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+        
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Cache Sonar packages
         uses: actions/cache@v3
