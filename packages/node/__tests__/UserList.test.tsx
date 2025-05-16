@@ -1,7 +1,8 @@
+import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { UserList } from '../components/UserList';
-import { server } from '../mocks/browser';
+import { UserList } from '../src/components/UserList';
+import { server } from '../src/mocks/browser';
 import { http, HttpResponse } from 'msw';
 
 

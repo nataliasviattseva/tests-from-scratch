@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { UserForm } from '../components/UserForm';
+import { UserForm } from '../src/components/UserForm';
 describe('UserForm Component', () => {
 
     it('appel onCreated avec le bon nom au submit', async () => {

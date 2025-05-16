@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../server';
+import { app } from '../src/server';
 
 describe('Server setup', () => {
   it('should respond to GET /users (route exists)', async () => {

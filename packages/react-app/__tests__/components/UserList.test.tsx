@@ -1,8 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { UserList } from '../src/components/UserList';
-import { server } from '../src/mocks/browser';
+import { UserList } from '../../src/components/UserList';
+import { server } from '../../src/src/mocks/browser';
 import { http } from 'msw';
 
 describe('UserList Component', () => {

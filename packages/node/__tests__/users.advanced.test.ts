@@ -1,9 +1,9 @@
 import request from 'supertest';
-import { app } from '../server';
-import { resetStore, createUser } from '../usersStore';
+import { app } from '../src/server';
+import { resetStore, createUser } from '../src/usersStore';
 import * as fixtures from './fixtures';
-import * as externalApi from '../externalApi';
-import type { User } from '../usersStore';
+import * as externalApi from '../src/externalApi';
+import type { User } from '../src/usersStore';
 
 describe('API Users – tests avancés', () => {
 
