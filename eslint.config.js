@@ -11,7 +11,9 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.node,
-        ...globals.browser,
+        ...Object.fromEntries(
+          Object.entries(globals.browser).filter(([key]) => !key.includes(' '))
+        ),
       },
     },
     files: ['**/*.js', '**/*.ts', '**/*.tsx', '**/*.jsx'],
