@@ -1,7 +1,7 @@
 // __tests__/users.test.ts
 import request from 'supertest';
-import { app } from '../server';
-import { resetStore } from '../usersStore';
+import { app } from '../src/server';
+import { resetStore } from '../src/usersStore';
 describe('API Users – TDD complet', () => {
 
     // Avant chaque test, on remet le store à zéro
@@ -47,7 +47,7 @@ describe('API Users – TDD complet', () => {
             .post('/users')
             .send({ name: 'Alice' });
         expect(res.status).toBe(201);
-        expect(res.body).toMatchObject({
+        expect(res.body).toEqual({
             id: 1,
             name: 'Alice'
         });
