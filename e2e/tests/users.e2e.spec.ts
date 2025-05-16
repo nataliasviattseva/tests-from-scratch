@@ -7,7 +7,7 @@ test.describe('E2E – Users flow', () => {
         await page.goto('/');
 
         // Vérifier le titre ou un élément clé
-        await expect(page.getByRole('heading', { name: '/utilisateurs/i' })).toBeVisible();
+        await expect(page.getByRole('heading', { name: /utilisateurs/i })).toBeVisible();
 
         // 2. Saisir le nom
         const input = page.getByLabel('Nom :');
