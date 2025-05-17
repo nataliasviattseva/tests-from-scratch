@@ -5,7 +5,6 @@ import { UserList } from '../src/components/UserList';
 import { server } from '../src/mocks/browser';
 import { http, HttpResponse } from 'msw';
 
-
 describe('UserList Component', () => {
 
     it("affiche le loader puis la liste d’utilisateurs", async () => {
