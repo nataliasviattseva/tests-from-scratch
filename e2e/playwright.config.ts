@@ -23,14 +23,14 @@ export default defineConfig({
         {
             command: 'yarn workspace node start',
             port: 3001,
-            reuseExistingServer: !process.env.CI,
+            reuseExistingServer: true,
         },
 
         // Démarre le frontend React
         {
             command: 'yarn workspace react-app start',
             port: 3000,
-            reuseExistingServer: !process.env.CI,
+            reuseExistingServer: true,
         },
     ],
 });

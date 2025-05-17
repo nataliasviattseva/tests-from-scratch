@@ -3,7 +3,7 @@ import { setupServer } from 'msw/node';
 
 // Handlers par défaut
 export const handlers = [
-  rest.get('http://localhost:3001/users', (req, res, ctx) => {
+  rest.get('http://localhost/users', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json([
