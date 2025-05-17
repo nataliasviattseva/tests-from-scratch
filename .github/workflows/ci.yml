@@ -14,7 +14,7 @@ jobs:
   prepare:
     name: Prepare Yarn once
     runs-on: ubuntu-latest
-    
+
     steps:
 
       - name: Setup Yarn once
@@ -171,8 +171,16 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      - name: Start backend server
+        run: |
+          yarn workspace node start &
+          sleep 5
+
       - name: Run E2E tests
         run: yarn e2e
+
+      - name: Wait for backend to be ready
+        run: npx wait-on http://localhost:3001/users
 
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4

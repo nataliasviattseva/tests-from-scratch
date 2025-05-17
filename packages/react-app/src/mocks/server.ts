@@ -1,14 +1,17 @@
+import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { http, HttpResponse } from 'msw';
 
 // Handlers par défaut
 export const handlers = [
-  http.get('/users', () =>
-    HttpResponse.json([
-      { id: 1, name: 'Alice' },
-      { id: 2, name: 'Bob' }
-    ])
-  ),
+  rest.get('http://localhost:3001/users', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json([
+        { id: 1, name: 'Alice' },
+        { id: 2, name: 'Bob' },
+      ])
+    );
+  }),
 ];
 
 export const server = setupServer(...handlers);
