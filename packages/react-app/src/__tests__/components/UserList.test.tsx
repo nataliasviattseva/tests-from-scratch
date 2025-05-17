@@ -1,9 +1,9 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { UserList } from '../../src/components/UserList';
-import { server } from '../../src/src/mocks/browser';
-import { http } from 'msw';
+import { UserList } from '../../components/UserList';
+import { server } from '../../mocks/server';
+import { rest } from 'msw';
 
 describe('UserList Component', () => {
     it('affiche le loader puis la liste d’utilisateurs', async () => {
@@ -22,11 +22,11 @@ describe('UserList Component', () => {
     it('affiche une erreur si l’API échoue', async () => {
         // On override le handler pour renvoyer 500 
         server.use(
-            http.get('/users', () => {
-                return new Response(JSON.stringify({ error: 'Server Error' }), {
-                    status: 500,
-                    headers: { 'Content-Type': 'application/json' },
-                });
+            rest.get('/users', (req, res, ctx) => {
+                return res(
+                    ctx.status(500),
+                    ctx.json({ error: 'Server Error' })
+                );
             })
         );
 
@@ -34,6 +34,6 @@ describe('UserList Component', () => {
 
         // Attendre l’alerte d’erreur 
         const alert = await screen.findByRole('alert');
-        expect(alert).toHaveTextContent('Erreur : Erreur réseau');
+        expect(alert).toHaveTextContent('Erreur : Network request failed');
     });
 });

@@ -2,6 +2,16 @@
 import request from 'supertest';
 import { app } from '../src/server';
 import { resetStore } from '../src/usersStore';
+
+/**
+ * Tests de l'API Users
+ *
+ * On utilise supertest pour tester l'API.
+ * On ne fait pas de mock ici, on teste le serveur complet.
+ *
+ * On utilise le TDD (Test Driven Development) pour écrire les tests avant
+ * d'implémenter le code.
+ */
 describe('API Users – TDD complet', () => {
 
     // Avant chaque test, on remet le store à zéro
@@ -60,8 +70,13 @@ describe('API Users – TDD complet', () => {
     * apparaît bien dans la liste.
     */
     it('GET /users après création → liste avec Alice', async () => {
-        await request(app).post('/users').send({ name: 'Alice' });
+        await request(app)
+        .post('/users')
+        .send({ name: 'Alice' });
+
+        // On rappelle GET /users pour vérifier qu’Alice est bien dans la liste
         const res = await request(app).get('/users');
+        
         expect(res.status).toBe(200);
         expect(res.body).toEqual([
             { id: 1, name: 'Alice' }

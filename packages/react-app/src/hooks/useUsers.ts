@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+// src/hooks/useUsers.ts
+import { useCallback, useEffect, useState } from 'react';
 
 export interface User { id: number; name: string }
 
@@ -7,7 +8,9 @@ export function useUsers() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
+
+    const fetchUsers = useCallback(() => {
+        setLoading(true);
         fetch('/users')
             .then(res => {
                 if (!res.ok) throw new Error('Erreur réseau');
@@ -18,5 +21,9 @@ export function useUsers() {
             .finally(() => setLoading(false));
     }, []);
 
-    return { users, loading, error };
+    useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
+
+    return { users, loading, error, refresh: fetchUsers };
 }

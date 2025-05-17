@@ -1,17 +1,12 @@
 import { http, HttpResponse } from 'msw';
 import { User } from '../hooks/useUsers';
+
 let users: User[] = [
     { id: 1, name: 'Alice' },
     { id: 2, name: 'Bob' },
-    { id: 3, name: 'Charlie' },
-    { id: 4, name: 'David' },
-    { id: 5, name: 'Eve' },
-    { id: 6, name: 'Frank' },
-    { id: 7, name: 'Grace' },
-    { id: 8, name: 'Heidi' },
-    { id: 9, name: 'Ivan' },
-    { id: 10, name: 'Judy' }
 ];
+
+// This is a mock server that will be used in the tests
 export const handlers = [
     // GET /users
     http.get('/users', () => {

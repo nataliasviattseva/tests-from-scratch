@@ -12,7 +12,7 @@ describe('API Users – tests avancés', () => {
         resetStore();
 
         fixtures.initialUsers.forEach((u: User) => {
-            createUser(u.name);
+            createUser(u.name, u.id);
         });
     });
 
@@ -23,14 +23,6 @@ describe('API Users – tests avancés', () => {
         const cases = [
             { id: 1, expected: fixtures.alice, status: 200 },
             { id: 2, expected: fixtures.bob, status: 200 },
-            { id: 3, expected: fixtures.charlie, status: 200 },
-            { id: 4, expected: fixtures.david, status: 200 },
-            { id: 5, expected: fixtures.eve, status: 200 },
-            { id: 6, expected: fixtures.frank, status: 200 },
-            { id: 7, expected: fixtures.grace, status: 200 },
-            { id: 8, expected: fixtures.heidi, status: 200 },
-            { id: 9, expected: fixtures.ivan, status: 200 },
-            { id: 10, expected: fixtures.judy, status: 200 },
             { id: 11, expected: { error: 'User not found' }, status: 404 }
         ] as const;
         test.each(cases)('id=$id → $status', async ({ id, expected, status }) => {

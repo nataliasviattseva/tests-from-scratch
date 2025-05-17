@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 
-export interface User { id: number; name: string }
+export type User = {
+  id: number;
+  name: string;
+};
+
 export function useUsers() {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
