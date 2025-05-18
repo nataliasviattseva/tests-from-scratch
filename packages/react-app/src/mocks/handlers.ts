@@ -7,11 +7,11 @@ let users = [
 ];
 
 export const handlers = [
-  rest.get('http://localhost:3001/users', (req, res, ctx) => {
+  rest.get('http://localhost/users', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(users));
   }),
 
-  rest.post('http://localhost:3001/users', async (req, res, ctx) => {
+  rest.post('http://localhost/users', async (req, res, ctx) => {
     const { name } = await req.json();
     const newUser = { id: Date.now(), name };
     users.push(newUser);

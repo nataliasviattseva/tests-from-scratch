@@ -7,6 +7,7 @@ export function useUsers() {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [localUsers, setLocalUsers] = useState(users);
 
 
     const fetchUsers = useCallback(() => {
