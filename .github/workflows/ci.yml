@@ -222,7 +222,7 @@ jobs:
       - name: Comment coverage on PR
         run: echo "Coverage comment logic goes here"
         
- # ---------------------------------------
+  # ---------------------------------------
   # 6. SonarCloud Analysis (optional)
   # ---------------------------------------
   sonarcloud:
@@ -259,7 +259,7 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v1.9.0
         with:
-          organization: 'myorg' # Remplace par ta vraie organisation SonarCloud
+          organization: ${{ secrets.ORG_KEY }}
           token: ${{ secrets.SONAR_TOKEN }}
-          projectKey: 'myorg_tests-course'
-          projectName: 'tests-course'
+          projectKey: ${{ secrets.PROJECT_KEY }}
+          projectName: ${{ secrets.PROJECT_NAME }}
