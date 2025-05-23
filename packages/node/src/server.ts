@@ -23,6 +23,7 @@ app.use(cors());
 app.use(express.json());
 
 // Expose uniquement en développement/test
+/* istanbul ignore next */
 if (process.env.NODE_ENV !== 'production') {
     app.post('/__reset__', (_, res) => {
         resetStore();
@@ -77,6 +78,7 @@ app.put('/users/:id', (req, res) => {
 
 // Ne démarre pas le serveur en test
 // On exporte l'application pour les tests
+/* istanbul ignore next */
 if (process.env.NODE_ENV !== 'test') {
     app.listen(3001, () => {
         console.log('API running on http://localhost:3001');

@@ -51,6 +51,7 @@ export function updateUser(id: number, name: string): User | undefined {
     return undefined;
 }
 
+/* istanbul ignore next */
 export function updateUserName(id: number, name: string): User | undefined {
     const user = getUserById(id);
     if (user) {

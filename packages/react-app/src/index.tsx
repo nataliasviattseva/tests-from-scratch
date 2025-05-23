@@ -1,18 +1,16 @@
-// src/index.tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-async function enableMocksIfNeeded() {
-  if (process.env.NODE_ENV === 'development' && process.env.REACT_APP_E2E !== 'true') {
-    const { worker } = await import('./mocks/browser');
-    await worker.start();
-  }
+// Start MSW in dev (but not in E2E), but don't block app rendering
+if (
+  process.env.NODE_ENV === 'development' &&
+  process.env.REACT_APP_E2E !== 'true'
+) {
+  import('./mocks/browser').then(({ worker }) => worker.start());
 }
 
-enableMocksIfNeeded().finally(() => {
-  const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-  root.render(<App />);
-  reportWebVitals();
-});
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+root.render(<App />);
+reportWebVitals();
