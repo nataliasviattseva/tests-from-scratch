@@ -204,7 +204,7 @@ jobs:
     name: Coverage Comment
     runs-on: ubuntu-latest
     needs: [prepare, test-backend, test-frontend]
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     continue-on-error: true
 
     steps:
@@ -256,14 +256,20 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
-      - name: Enable Corepack
-        run: corepack enable
-
       - name: Prepare correct Yarn version
-        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate        
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+          yarn set version ${{ env.YARN_VERSION }}       
 
       - name: Check Yarn version
         run: yarn --version
+
+      - name: Verify Yarn version
+        run: |
+          echo "Current Yarn version:"
+          yarn --version
+          echo "Expected version: ${{ env.YARN_VERSION }}"
         
       - name: Install dependencies
         run: yarn install --immutable
@@ -322,13 +328,14 @@ jobs:
       - name: Add Heroku Git Remote
         run: heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
 
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          dontautocreate: true
+      # skipped as this action requires a paid Heroku plan
+      # - name: Deploy to Heroku
+      #   uses: akhileshns/heroku-deploy@v3.12.12
+      #   with:
+      #     heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+      #     heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+      #     heroku_email: ${{ secrets.HEROKU_EMAIL }}
+      #     dontautocreate: true
           
   # ---------------------------------------
   # 8. Deploy to Netlify (optional)   
