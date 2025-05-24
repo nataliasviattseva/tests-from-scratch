@@ -278,12 +278,15 @@ jobs:
           key: ${{ runner.os }}-sonar
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v3.1.0
+        uses: SonarSource/sonarcloud-github-action@v5.0.0
         with:
-          organization: ${{ secrets.ORG_KEY }}
-          token: ${{ secrets.SONAR_TOKEN }}
-          projectKey: ${{ secrets.PROJECT_KEY }}
-          projectName: ${{ secrets.PROJECT_NAME }}
+          entryPoint: sonar-scanner
+          args: ""
+      
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   # ---------------------------------------
   # 7. Deploy to Heroku (optional)
