@@ -1,2 +1,3 @@
 ![CI](https://github.com/nataliasviattseva/tests-from-scratch/actions/workflows/ci.yml/badge.svg)
 [![Codecov](https://codecov.io/gh/nataliasviattseva/tests-from-scratch/branch/main/graph/badge.svg)](https://codecov.io/gh/nataliasviattseva/tests-from-scratch)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nataliasviattseva_tests-from-scratch&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=nataliasviattseva_tests-from-scratch)
