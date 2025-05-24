@@ -78,6 +78,9 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      - name: Prepare correct Yarn version
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -119,6 +122,9 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      - name: Prepare correct Yarn version
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -158,6 +164,9 @@ jobs:
  
       - name: Enable Corepack
         run: corepack enable
+
+      - name: Prepare correct Yarn version
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate        
        
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -251,6 +260,9 @@ jobs:
         run: corepack enable
 
       - name: Prepare correct Yarn version
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate        
+
+      - name: Prepare correct Yarn version
         run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
       - name: Check Yarn version
@@ -298,6 +310,9 @@ jobs:
         run: corepack enable
 
       - name: Prepare correct Yarn version
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate        
+
+      - name: Prepare correct Yarn version
         run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
       - name: Install dependencies
@@ -310,12 +325,16 @@ jobs:
         run: |
           curl https://cli-assets.heroku.com/install.sh | sh
 
+      - name: Add Heroku Git Remote
+        run: heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
+
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          dontautocreate: true
           
   # ---------------------------------------
   # 8. Deploy to Netlify (optional)   
@@ -339,6 +358,9 @@ jobs:
 
       - name: Enable Corepack
         run: corepack enable
+
+      - name: Prepare correct Yarn version
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate        
 
       - name: Prepare correct Yarn version
         run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
