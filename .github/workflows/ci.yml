@@ -254,7 +254,7 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@${{ env.YARN_VERSION }} --activate
-          yarn set version ${{ env.YARN_VERSION }} --only=if-needed
+          yarn set version --only-if-needed ${{ env.YARN_VERSION }}
 
       - name: Verify Yarn version
         run: |
