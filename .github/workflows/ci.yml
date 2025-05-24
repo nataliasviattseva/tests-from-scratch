@@ -257,7 +257,8 @@ jobs:
           key: ${{ runner.os }}-sonar
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v1.9.0
+        uses: SonarSource/sonarcloud-github-action@v3.1.0
+
         with:
           organization: ${{ secrets.ORG_KEY }}
           token: ${{ secrets.SONAR_TOKEN }}
@@ -296,14 +297,17 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+
       - name: Deploy to Heroku
-        uses: appleboy/heroku-action@v0.2.0
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          usedocker: false
-
+          
   # ---------------------------------------
   # 8. Deploy to Netlify (optional)   
   # ---------------------------------------
