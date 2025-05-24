@@ -230,6 +230,11 @@ jobs:
 
       - name: Comment coverage on PR
         run: echo "Coverage comment logic goes here"
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
         
   # ---------------------------------------
   # 6. SonarCloud Analysis (optional)
@@ -283,11 +288,6 @@ jobs:
           args: "-Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.automaticAnalysis=false"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
 
   # ---------------------------------------
   # 7. Deploy to Heroku (optional)
