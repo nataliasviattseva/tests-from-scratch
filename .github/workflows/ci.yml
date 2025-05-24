@@ -250,26 +250,23 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: Prepare correct Yarn version
+      - name: Force Yarn version before Node.js setup
         run: |
           corepack enable
           corepack prepare yarn@${{ env.YARN_VERSION }} --activate
-          yarn set version ${{ env.YARN_VERSION }}       
-
-      - name: Check Yarn version
-        run: yarn --version
+          yarn set version ${{ env.YARN_VERSION }} --only=if-needed
 
       - name: Verify Yarn version
         run: |
           echo "Current Yarn version:"
           yarn --version
           echo "Expected version: ${{ env.YARN_VERSION }}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
         
       - name: Install dependencies
         run: yarn install --immutable
@@ -282,7 +279,6 @@ jobs:
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v3.1.0
-
         with:
           organization: ${{ secrets.ORG_KEY }}
           token: ${{ secrets.SONAR_TOKEN }}
@@ -325,10 +321,11 @@ jobs:
         run: |
           curl https://cli-assets.heroku.com/install.sh | sh
 
-      - name: Add Heroku Git Remote
-        run: heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
-
       # skipped as this action requires a paid Heroku plan
+
+      # - name: Add Heroku Git Remote
+      #   run: heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
+
       # - name: Deploy to Heroku
       #   uses: akhileshns/heroku-deploy@v3.12.12
       #   with:
