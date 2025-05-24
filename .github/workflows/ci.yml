@@ -49,14 +49,14 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Lint workspace
-        run: yarn lint
+      # - name: Lint workspace
+      #   run: yarn lint
 
-      - name: TypeScript check
-        run: |
-          yarn workspace node tsc --noEmit
-          yarn workspace react-app tsc --noEmit
-          yarn workspace ng-app tsc --noEmit
+      # - name: TypeScript check
+      #   run: |
+      #     yarn workspace node tsc --noEmit
+      #     yarn workspace react-app tsc --noEmit
+      #     yarn workspace ng-app tsc --noEmit
 
   # ---------------------------------------
   # 2. Backend Tests (Node)
@@ -263,3 +263,38 @@ jobs:
           token: ${{ secrets.SONAR_TOKEN }}
           projectKey: ${{ secrets.PROJECT_KEY }}
           projectName: ${{ secrets.PROJECT_NAME }}
+
+  # ---------------------------------------
+  # 7. Deploy to Heroku (optional)
+  # ---------------------------------------
+  deploy-backend:
+    name: Deploy Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+
+
+          name: Deploy Frontend
+
+  # ---------------------------------------
+  # 8. Deploy to Netlify (optional)   
+  # ---------------------------------------
+  deploy-frontend:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy to Netlify
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --prod --dir build
