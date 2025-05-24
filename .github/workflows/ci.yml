@@ -297,7 +297,7 @@ jobs:
         run: yarn build
 
       - name: Deploy to Heroku
-        uses: appleboy/heroku-action@v0.3.0
+        uses: appleboy/heroku-action@v0.2.0
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
