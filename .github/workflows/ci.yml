@@ -246,6 +246,15 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Prepare correct Yarn version
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
+      - name: Check Yarn version
+        run: yarn --version
         
       - name: Install dependencies
         run: yarn install --immutable
