@@ -297,11 +297,12 @@ jobs:
         run: yarn build
 
       - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
+        uses: appleboy/heroku-action@v0.3.0
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          usedocker: false
 
   # ---------------------------------------
   # 8. Deploy to Netlify (optional)   
@@ -339,4 +340,3 @@ jobs:
         uses: netlify/actions/cli@master
         with:
           args: deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --prod --dir build
-          
